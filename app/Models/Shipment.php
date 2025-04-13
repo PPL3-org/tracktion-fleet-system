@@ -32,13 +32,13 @@ class Shipment extends Model
 
     public function scopeSearch($query, $value)
     {
-        return $query->where('load_type', 'ilike', "%{$value}%")
-            ->orWhere('departure_waybill_number', 'ilike', "%{$value}%")
-            ->orWhere('return_waybill_number', 'ilike', "%{$value}%")
-            ->orWhere('client', 'ilike', "%{$value}%")
-            ->orWhere('status', 'ilike', "%{$value}%")
+        return $query->where('load_type', 'like', "%{$value}%")
+            ->orWhere('departure_waybill_number', 'like', "%{$value}%")
+            ->orWhere('return_waybill_number', 'like', "%{$value}%")
+            ->orWhere('client', 'like', "%{$value}%")
+            ->orWhere('status', 'like', "%{$value}%")
             ->orWhereHas('truck', function ($query) use ($value) {
-                $query->where('plate_number', 'ilike', "%{$value}%");
+                $query->where('plate_number', 'like', "%{$value}%");
             });
     }
 
