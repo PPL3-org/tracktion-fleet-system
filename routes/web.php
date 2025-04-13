@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\RegisteredUserController;
 use App\Http\Controllers\SessionController;
+use App\Http\Controllers\TrackingController;
 
 Route::get('/', function () {
     return Auth::check() ? redirect()->route('shipments.index') : redirect()->route('login');
@@ -16,6 +17,10 @@ Route::post('/register', [RegisteredUserController::class, 'store']);
 Route::get('/login', [SessionController::class, 'create'])->name('login');
 Route::post('/login', [SessionController::class, 'store']);
 Route::post('/logout', [SessionController::class, 'destroy']);
+
+// Tracking
+Route::get('/track/{truck}', [TrackingController::class, 'show'])->name('tracking.show');
+Route::get('/track/{truck}/on-going', [TrackingController::class, 'onGoing'])->name('tracking.ongoing');
 
 Route::middleware('auth')->group(function () {
     Route::get('/shipments', App\Livewire\Shipments\Index::class)->name('shipments.index');
