@@ -25,4 +25,5 @@ Route::middleware('auth')->group(function () {
     Route::get('/drivers', App\Livewire\Drivers\Index::class)->name('drivers.index');
     
     Route::get('/reports', App\Livewire\Reports\Index::class)->name('reports.index');
+
 });

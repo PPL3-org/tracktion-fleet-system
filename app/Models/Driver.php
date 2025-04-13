@@ -10,6 +10,12 @@ class Driver extends Model
     /** @use HasFactory<\Database\Factories\DriverFactory> */
     use HasFactory;
 
+    protected $fillable = [
+        'name',
+        'contact_number',
+        'email',
+    ];
+
     public function trucks()
     {
         return $this->belongsToMany(Truck::class, 'truck_driver');
@@ -17,8 +23,8 @@ class Driver extends Model
 
     public function scopeSearch($query, $value)
     {
-        return $query->where('name', 'ilike', "%{$value}%")
-            ->orWhere('contact_number', 'ilike', "%{$value}%")
-            ->orWhere('email', 'ilike', "%  {$value}%");
+        return $query->where('name', 'like', "%{$value}%")
+            ->orWhere('contact_number', 'like', "%{$value}%")
+            ->orWhere('email', 'like', "%{$value}%");
     }
 }
