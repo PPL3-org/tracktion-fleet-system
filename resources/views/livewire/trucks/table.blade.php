@@ -39,7 +39,9 @@
                             ? 'bg-[#FEF4EA] text-[#F08927]'
                             : 'bg-[#FCE6E6] text-[#DF0404]';
                             @endphp
-                            <tr class="hover:bg-gray-50 text-center text-xs text-black">
+                            <tr 
+                                wire:key="'{{ $truck->id }}'"
+                                class="hover:bg-gray-50 text-center text-xs text-black">
                                 <td class="px-4 py-3 font-medium text-gray-800">{{ $loop->iteration }}</td>
                                 <td class="px-4 py-3">{{ $truck->plate_number }}</td>
                                 <td class="px-4 py-3">{{ $truck->model }}</td>
@@ -51,7 +53,9 @@
                                 </td>
                                 <td class="flex justify-around">
                                     <button class="text-white text-xs font-medium bg-[var(--color-primary)] rounded-lg p-2 my-2">QR</button>
-                                    <button class="text-white bg-[#FFB700] rounded-lg p-2 my-2">
+                                    <button 
+                                        wire:click="editTruckView('{{ $truck->id }}')"
+                                        class="text-white bg-[#FFB700] rounded-lg p-2 my-2 cursor-pointer">
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="size-4">
                                             <path stroke-linecap="round" stroke-linejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
                                         </svg>
@@ -88,4 +92,21 @@
             </div>
         </div>
     </section>
+
+    <x-modal title="Ubah data truk" name="edit-view-truck">
+        @if ($selectedTruck)
+            <form action="" class="flex flex-col items-center p-2">
+                <label for="Plat Nomor"></label>
+                <input type="text" value="{{ $selectedTruck->plate_number }}">
+
+                <label for="model">Model Kendaraan</label>
+                <input type="text" value="{{ $selectedTruck->model }}">
+
+                <label for="total_distance">Total Jarak Tempuh</label>
+                <input type="text" value="{{ $selectedTruck->total_distance ? $selectedTruck->total_distance : '' }}">
+                
+                <x-button style="white" wire:click>Simpan</x-button>
+            </form>
+        @endif
+    </x-modal>
 </div>

@@ -17,6 +17,7 @@ class Table extends Component
     // Search filter
     #[Url(history:true)]
     public string $search = '';
+    public $selectedTruck;
 
     public string $sortBy = 'created_at';
     public string $sortDir = 'DESC';
@@ -27,6 +28,13 @@ class Table extends Component
     public function updatedSearch()
     {
         $this->resetPage();
+    }
+
+    public function editTruckView($truckId)
+    {
+        $this->selectedTruck = Truck::where('id', $truckId)->first();
+
+        $this->dispatch('open-modal', name: 'edit-view-truck');
     }
 
     #[On('exportTruck')]
