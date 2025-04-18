@@ -20,10 +20,10 @@ class Report extends Model
 
     public function scopeSearch($query, $value)
     {
-        return $query->where('problem_type', 'ilike', "%{$value}%")
-            ->orWhere('problem_description', 'ilike', "%{$value}%")
+        return $query->where('problem_type', 'like', "%{$value}%")
+            ->orWhere('problem_description', 'like', "%{$value}%")
             ->orWhereHas('shipment.truck', function($truckQuery) use ($value) {
-                $truckQuery->where('plate_number', 'ilike', "%{$value}%");
+                $truckQuery->where('plate_number', 'like', "%{$value}%");
             });
     }
 
