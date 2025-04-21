@@ -49,8 +49,23 @@ class User extends Authenticatable
         ];
     }
 
-    public function truck()
+    public function trucks()
     {
         return $this->hasMany(Truck::class);
+    }
+
+    public function shipments()
+    {
+        return $this->hasMany(Shipment::class);
+    }
+
+    public function drivers()
+    {
+        return $this->hasMany(Driver::class);
+    }
+
+    public function reports()
+    {
+        return $this->hasMany(Report::class);
     }
 }

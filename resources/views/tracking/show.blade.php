@@ -15,12 +15,13 @@
     </div>
     
     {{-- Loading Skeleton --}}
-    <div id="loading-overlay" class="flex flex-col items-center justify-center relative hidden">
-        <div class="absolute w-32 h-32 rounded-full bg-amber-200 opacity-30 animate-ping"></div>
-        
-        <div class="w-16 h-16 rounded-full bg-amber-500 animate-pulse" style="animation-duration: 2s;"></div>
-        
-        <p class="mt-4 text-lg font-medium text-white z-10 italic">Mohon tunggu...</p>
+    <div id="loading-overlay" class="flex flex-col items-center hidden">
+        <div class="bg-white p-5 rounded-full flex space-x-3">
+            <div class="w-5 h-5 rounded-full bg-gray-800 animate-bounce" style="animation-delay: 0.2s;"></div>
+            <div class="w-5 h-5 rounded-full bg-gray-800 animate-bounce" style="animation-delay: 0.4s;"></div>
+            <div class="w-5 h-5 rounded-full bg-gray-800 animate-bounce" style="animation-delay: 0.6s;"></div>
+        </div>
+        <span class="text-white italic mt-2">Mohon tunggu...</span>
     </div>
     
     <div id="main-content" class="flex flex-col max-w-xl mx-auto px-4 sm:px-6 mt-10 space-y-6">
