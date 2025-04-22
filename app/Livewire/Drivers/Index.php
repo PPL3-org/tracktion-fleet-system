@@ -13,6 +13,7 @@ class Index extends Component
     public string $contact_number = '';
     public string $email = '';
 
+
     protected $rules = [
         'name' => 'required|string|max:255',
         'contact_number' => 'required|string|max:20',
