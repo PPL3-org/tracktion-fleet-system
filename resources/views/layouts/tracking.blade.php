@@ -16,6 +16,8 @@
         @yield('content')
     </div>
     
-    <script src="{{ asset('js/tracking.js') }}" defer></script>
+    @hasSection('scripts')
+        @yield('scripts')
+    @endif
 </body>
 </html>
