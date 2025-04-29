@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\PasswordResetController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\RegisteredUserController;
@@ -19,8 +20,13 @@ Route::post('/login', [SessionController::class, 'store']);
 Route::post('/logout', [SessionController::class, 'destroy']);
 
 // Tracking
-Route::get('/track/{truck}', [TrackingController::class, 'show'])->name('tracking.show');
-Route::get('/track/{truck}/on-going', [TrackingController::class, 'onGoing'])->name('tracking.ongoing');
+Route::get('/track/{truck}', [TrackingController::class, 'startTracking'])->name('tracking.start-tracking');
+Route::get('/track/{truck}/started-success', [TrackingController::class, 'startedSuccess'])->name('tracking.started-success');
+Route::get('/track/{truck}/on-going', [TrackingController::class, 'onGoing'])->name('tracking.on-going');
+Route::get('/track/{truck}/on-going/success', [TrackingController::class, 'finishSuccess'])->name('tracking.finish-success');
+Route::get('/track/{truck}/report', [TrackingController::class, 'createReport'])->name('tracking.create-report');
+Route::post('/track/{truck}/report', [TrackingController::class, 'storeReport'])->name('tracking.store-report');
+Route::get('/track/{truck}/report/success', [TrackingController::class, 'reportSuccess'])->name('tracking.report-success');
 
 Route::middleware('auth')->group(function () {
     Route::get('/shipments', App\Livewire\Shipments\Index::class)->name('shipments.index');
