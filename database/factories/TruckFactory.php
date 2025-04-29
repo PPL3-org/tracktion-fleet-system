@@ -28,7 +28,7 @@ class TruckFactory extends Factory
                 'CDD Long Type'
             ]),
             'total_distance' => fake()->randomFloat(2, 100, 1200),
-            'current_status' => fake()->randomElement(['dalam pengiriman', 'tidak dalam pengiriman'])
+            'current_status' => 'tidak dalam pengiriman'
         ];
     }
 }
