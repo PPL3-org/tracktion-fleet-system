@@ -28,8 +28,8 @@ class Truck extends Model
 
     public function scopeSearch($query, $value)
     {
-        return $query->where('plate_number', 'ilike', "%{$value}%")
-            ->orWhere('model', 'ilike', "%{$value}%")
-            ->orWhere('current_status', 'ilike', "{$value} %");
+        return $query->where('plate_number', 'like', "%{$value}%")
+            ->orWhere('model', 'like', "%{$value}%")
+            ->orWhere('current_status', 'like', "{$value} %");
     }
 }
