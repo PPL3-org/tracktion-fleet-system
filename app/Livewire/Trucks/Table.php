@@ -64,7 +64,7 @@ class Table extends Component
     public function downloadTruckQRCode($id)
     {
         $truck = Truck::findOrFail($id);
-        $url = route('tracking.show', $truck); 
+        $url = route('tracking.start-tracking', $truck); 
 
 
         $renderer = new GDLibRenderer(500);

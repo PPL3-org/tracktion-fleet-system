@@ -1,6 +1,7 @@
 <header class="bg-white p-4 shadow-md flex justify-between items-center sticky z-10 top-0 transition-all duration-300">
 
     <button 
+        dusk="navbar"
         x-data="{ open: false }"
         x-on:toggle.window = "open = !open"
         @click="$dispatch('toggle')"
