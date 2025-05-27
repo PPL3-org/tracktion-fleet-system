@@ -8,6 +8,7 @@
         <link rel="icon" href="{{ asset('favlogo.ico')}}" type="image/x-icon">
 
         <title>{{ $title ?? config('app.name') }}</title>
+        @livewireStyles {{-- Tambahkan ini jika belum ada, untuk styling Livewire --}}
     </head>
     <body class="flex bg-gray-100">
 
@@ -19,10 +20,18 @@
             <livewire:navbar />
 
             {{-- main content --}}
-            <div>  
+            <main class="p-4"> {{-- Sebaiknya bungkus $slot dalam tag <main> dan beri padding jika perlu --}}
                 {{ $slot }}
-            </div>
+            </main>
         </div>
     
+        {{-- Komponen Livewire untuk modal profil --}}
+        @livewire('profile.index') 
+        {{-- atau <livewire:profile.index /> --}}
+
+        @livewireScripts {{-- WAJIB: Untuk fungsionalitas Livewire --}}
+        {{-- Jika Anda menggunakan Vite untuk JavaScript bundle Anda, pastikan itu juga di-include --}}
+        {{-- Contoh: @vite('resources/js/app.js') --}}
+        {{-- Biasanya @livewireScripts ditempatkan sebelum tag </body> --}}
     </body>
 </html>

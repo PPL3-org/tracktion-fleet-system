@@ -26,4 +26,7 @@ Route::middleware('auth')->group(function () {
     
     Route::get('/reports', App\Livewire\Reports\Index::class)->name('reports.index');
 
+    Route::get('/profile', App\Livewire\Profile\Index::class)->name('profile.index');
+
+
 });
