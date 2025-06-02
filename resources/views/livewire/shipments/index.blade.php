@@ -9,7 +9,13 @@
         <span class="text-2xl text-white font-sans font-semibold">Data Pengiriman</span>
     </div>
 
-    <x-button wire:click='exportExcel' style='green'>Cetak .xlsx</x-button>
+    <div class="flex justify-around gap-3.5">
+        <x-button wire:click="scheduleShipment" style='white' >
+            Jadwal Pengiriman
+        </x-button>
+
+        <x-button wire:click='exportExcel' style='green'>Cetak .xlsx</x-button>
+    </div>
     </x-page-menu>
     
     <livewire:shipments.table lazy />

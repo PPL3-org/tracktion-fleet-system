@@ -14,6 +14,11 @@ class Index extends Component
         return $this->dispatch('exportShipment')->to(Table::class);
     }
 
+    public function scheduleShipment()
+    {
+        return redirect()->route('schedules.index');
+    }
+
     public function render()
     {
         return view('livewire.shipments.index');
