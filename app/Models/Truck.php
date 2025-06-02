@@ -22,6 +22,16 @@ class Truck extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function vehicleInspections()
+    {
+        return $this->hasMany(VehicleInspection::class);
+    }
+
+    public function inspectionSchedules()
+    {
+        return $this->hasMany(InspectionSchedule::class);
+    }
+
     public function shipments()
     {
         return $this->hasMany(Shipment::class);
