@@ -39,6 +39,7 @@
                                 <th scope="col" class="px-4 py-3">Klien</th>
                                 <th scope="col" class="px-4 py-3">Harga Pengiriman</th>
                                 <th scope="col" class="px-4 py-3">Tanggal Pengiriman</th>
+                                <th scope="col" class="px-4 py-3">Aksi</th>
                             </tr>
                         </thead>
                         <tbody class="divide-y divide-gray-200">
@@ -48,7 +49,14 @@
                                     <td class="px-4 py-3">{{ $schedule->client }}</td>
                                     <td class="px-4 py-3">{{ $schedule->delivery_price }}</td>
                                     <td class="px-4 py-3">{{ $schedule->departure_date }}</td>
-                                </tr    >                                
+                                    <td class="flex justify-around">
+                                        <button wire:click="viewEditSchedule('{{ $schedule->id }}')" class="text-white bg-[#FFB700] rounded-lg p-2 my-2 cursor-pointer hover:opacity-90">
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="size-4">
+                                                <path stroke-linecap="round" stroke-linejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
+                                            </svg>
+                                        </button>
+                                    </td>
+                                </tr>                                
                             @endforeach
                         </tbody>
                     </table>
@@ -77,4 +85,38 @@
             </div>
         </div>
     </section>
+
+    <x-modal title="Ubah data jadwal pengiriman" name="view-edit-shipment-schedule" focusable>
+        @if($selectedSchedule)
+        <form wire:submit.prevent="updateSchedule" class="p-6 space-y-4">
+            <div>
+                <label class="block text-sm font-medium text-gray-700">Klien</label>
+                <input type="text" wire:model.defer="client" name="client" class="w-full mt-1 p-2 border rounded">
+            </div>
+            <!-- Problem Description (editable) -->
+            <div>
+                <label class="block text-sm font-medium text-gray-700">Harga Pengiriman</label>
+                <input type="number" wire:model.defer="delivery_price" name="delivery_price" class="w-full mt-1 p-2 border rounded">
+            </div>
+            <div>
+                <label for="departure_date" class="block text-sm font-medium text-gray-700">Tanggal Keberangkatan</label>
+                <input
+                    type="datetime-local"
+                    wire:model.defer="departure_date"
+                    id="departure_date"
+                    class="mt-1 p-2 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+                >
+            </div>
+            @if($errors->any())
+            <p class="text-xs text-center text-red-600 my-2 font-medium">{{ $errors->first() }}</p>
+            @endif
+            <div class="flex justify-end">
+                <button type="submit"
+                    class="px-4 py-2 bg-[var(--color-primary)] text-white hover:opacity-80 rounded-lg cursor-pointer">
+                    Simpan
+                </button>
+            </div>
+        </form>
+        @endif
+    </x-modal>
 </div>
