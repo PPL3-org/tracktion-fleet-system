@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\Shipment;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -18,6 +19,7 @@ class ReportFactory extends Factory
     public function definition(): array
     {
         return [
+            'user_id' => User::factory(),
             'shipment_id' => Shipment::factory(),
             'problem_type' => fake()->randomElement(['kemacetan', 'kecelakaan', 'masalah kendaraan', 'lainnya']),
             'problem_description' => fake()->paragraph(1)

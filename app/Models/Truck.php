@@ -10,10 +10,21 @@ class Truck extends Model
 {
     /** @use HasFactory<\Database\Factories\TruckFactory> */
     use HasFactory, HasUuids;
+    protected $primaryKey = 'id';
 
-    public function users()
+    protected $keyType = 'string';
+    public $incrementing = false;
+
+    protected $fillable = ['user_id', 'plate_number', 'model', 'current_status', 'total_distance'];
+
+    public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function vehicleInspections()
+    {
+        return $this->hasMany(VehicleInspection::class);
     }
 
     public function shipments()
@@ -24,6 +35,11 @@ class Truck extends Model
     public function drivers()
     {
         return $this->belongsToMany(Driver::class, 'truck_driver');
+    }
+
+    public function getRouteKeyName()
+    {
+        return 'id';
     }
 
     public function scopeSearch($query, $value)

@@ -1,10 +1,13 @@
 <?php
 
+use App\Http\Controllers\PasswordResetController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\RegisteredUserController;
 use App\Http\Controllers\SessionController;
-use App\Http\Controllers\Admin\UserController; // Ditambahkan untuk UserController
+use App\Http\Controllers\TrackingController;
+use App\Http\Controllers\InspectionController;
+use App\Http\Controllers\Admin\UserController;
 use App\Livewire\Admin\Users\Index as AdminUsersIndex;
 
 Route::get('/', function () {
@@ -18,6 +21,19 @@ Route::post('/register', [RegisteredUserController::class, 'store']);
 Route::get('/login', [SessionController::class, 'create'])->name('login');
 Route::post('/login', [SessionController::class, 'store']);
 Route::post('/logout', [SessionController::class, 'destroy']);
+
+// Tracking
+Route::get('/track/{truck}', [TrackingController::class, 'startTracking'])->name('tracking.start-tracking');
+Route::get('/track/{truck}/started-success', [TrackingController::class, 'startedSuccess'])->name('tracking.started-success');
+Route::get('/track/{truck}/on-going', [TrackingController::class, 'onGoing'])->name('tracking.on-going');
+Route::get('/track/{truck}/on-going/success', [TrackingController::class, 'finishSuccess'])->name('tracking.finish-success');
+Route::get('/track/{truck}/report', [TrackingController::class, 'createReport'])->name('tracking.create-report');
+Route::post('/track/{truck}/report', [TrackingController::class, 'storeReport'])->name('tracking.store-report');
+Route::get('/track/{truck}/report/success', [TrackingController::class, 'reportSuccess'])->name('tracking.report-success');
+
+// Inspection
+Route::get('/inspection/{truck}', [InspectionController::class, 'create'])->name('inspections.create');
+Route::post('/inspection/{truck}', [InspectionController::class, 'store'])->name('inspections.store');
 
 Route::middleware('auth')->group(function () {
     Route::get('/shipments', App\Livewire\Shipments\Index::class)->name('shipments.index');

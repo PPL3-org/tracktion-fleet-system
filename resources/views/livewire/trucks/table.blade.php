@@ -39,7 +39,7 @@
                             ? 'bg-[#FEF4EA] text-[#F08927]'
                             : 'bg-[#FCE6E6] text-[#DF0404]';
                             @endphp
-                            <tr class="hover:bg-gray-50 text-center text-xs text-black">
+                            <tr wire:key="{{ $truck->id }}" class="hover:bg-gray-50 text-center text-xs text-black">
                                 <td class="px-4 py-3 font-medium text-gray-800">{{ $loop->iteration }}</td>
                                 <td class="px-4 py-3">{{ $truck->plate_number }}</td>
                                 <td class="px-4 py-3">{{ $truck->model }}</td>
@@ -50,13 +50,13 @@
                                     </span>
                                 </td>
                                 <td class="flex justify-around">
-                                    <button class="text-white text-xs font-medium bg-[var(--color-primary)] rounded-lg p-2 my-2">QR</button>
-                                    <button class="text-white bg-[#FFB700] rounded-lg p-2 my-2">
+                                    <button wire:click="viewQRCode('{{  $truck->id }}')" class="text-white text-xs font-medium bg-[var(--color-primary)] rounded-lg p-2 my-2 cursor-pointer hover:opacity-90">QR</button>
+                                    <button wire:click="viewTruck('{{ $truck->id }}')" class="text-white bg-[#FFB700] rounded-lg p-2 my-2 cursor-pointer hover:opacity-90">
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="size-4">
                                             <path stroke-linecap="round" stroke-linejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
                                         </svg>
                                     </button>
-                                    <button class="text-white bg-[#C30010] rounded-lg p-2 my-2">
+                                    <button wire:click="viewDeleteTruck('{{ $truck->id }}')" class="text-white bg-[#C30010] rounded-lg p-2 my-2 cursor-pointer hover:opacity-90">
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="size-4">
                                             <path stroke-linecap="round" stroke-linejoin="round" d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0" />
                                         </svg>
@@ -88,4 +88,98 @@
             </div>
         </div>
     </section>
+
+    <x-modal title="QR Code" :centerTitle="true" name="view-truck-qr-code">
+        @if ($selectedTruck)
+        <div class="flex flex-col items-center justify-center space-y-6">
+            {{-- QR Code Image --}}
+            <img src="{{ asset('images/QR-code-animation.png') }}" alt="QR Code" class="w-80 h-80 object-contain" />
+
+            {{-- Download Button --}}
+            <button 
+                wire:click="downloadTruckQRCode('{{ $selectedTruck->id }}')"
+                class="w-full flex items-center justify-center gap-2 bg-[var(--color-primary)] hover:bg-[var(--color-hover)] text-white py-2 rounded-lg transition cursor-pointer"
+            >
+                <svg 
+                    xmlns="http://www.w3.org/2000/svg" 
+                    fill="none" 
+                    viewBox="0 0 24 24" 
+                    stroke-width="2.5" 
+                    stroke="currentColor" 
+                    class="w-5 h-5"
+                >
+                    <path 
+                        stroke-linecap="round" 
+                        stroke-linejoin="round" 
+                        d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3" 
+                    />
+                </svg>
+                <span class="font-regular">Unduh</span>
+            </button>
+        </div>
+        @endif
+    </x-modal>
+
+    <x-modal title="Ubah data truk" name="view-edit-truck" focusable>
+        @if($selectedTruck)
+            <form wire:submit.prevent="updateTruck" class="p-6 space-y-4">
+                <!-- Form fields -->
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Nomor Plat</label>
+                    <input type="text" wire:model="plate_number" name="plate_number"
+                        class="w-full mt-1 p-2 border rounded">
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Model Truk</label>
+                    <input type="text" wire:model.defer="model" name="model"
+                        class="w-full mt-1 p-2 border rounded">
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Total Jarak Tempuh (Km)</label>
+                    <input type="number" wire:model.defer="total_distance"  name="total_distance"
+                        class="w-full mt-1 p-2 border rounded">
+                </div>
+
+                @if($errors->any())
+                <p class="text-xs text-center text-red-600 my-2 font-medium">{{ $errors->first() }}</p>
+                @endif
+
+                <div class="flex justify-end">
+                    <button type="submit" class="px-4 py-2 bg-[var(--color-primary)] text-white hover:opacity-80 rounded-lg cursor-pointer">
+                        Simpan
+                    </button>
+                </div>
+            </form>
+        @endif
+    </x-modal>
+
+    <x-modal 
+        title="Hapus Data Truk"
+        name="view-delete-truck">
+        <x-slot:icon>
+            <x-icons.round-warning class="size-5 text-red-600" />
+        </x-slot:icon>
+
+        @if ($selectedTruck)
+            <h2 class="font-semibold text-md">Apakah anda yakin ingin menghapus data truk ini?</h2>
+            <div class="flex flex-col text-gray-800 text-sm my-2 space-y-1">
+                <div class="flex">
+                    <span class="w-28">Plat Nomor</span>
+                    <span>: {{ $selectedTruck->plate_number }}</span>
+                </div>
+                <div class="flex">
+                    <span class="w-28">Model</span>
+                    <span>: {{ $selectedTruck->model }}</span>
+                </div>
+            </div>
+
+            <form wire:submit.prevent="deleteTruck" class="flex justify-end">
+                <button type="submit" class="text-white rounded-lg px-4 py-2 bg-red-600 cursor-pointer">
+                    Hapus 
+                </button>
+            </form>
+        @endif
+    </x-modal>
 </div>

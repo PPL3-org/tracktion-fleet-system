@@ -11,6 +11,7 @@ class Driver extends Model
     use HasFactory;
 
     protected $fillable = [
+        'user_id',
         'name',
         'contact_number',
         'email',
@@ -20,7 +21,12 @@ class Driver extends Model
     {
         return $this->belongsToMany(Truck::class, 'truck_driver');
     }
-    # Searchable fields
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
     public function scopeSearch($query, $value)
     {
         return $query->where('name', 'ilike', "%{$value}%")

@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\Truck;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -18,6 +19,7 @@ class ShipmentFactory extends Factory
     public function definition(): array
     {
         return [
+            'user_id' => User::factory(),
             'truck_id' => Truck::factory(),
             'delivery_order_price' => null, // fake()->numberBetween(1000000, 10000000)
             'client' => '', //fake()->company(),
