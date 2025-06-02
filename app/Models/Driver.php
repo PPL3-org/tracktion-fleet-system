@@ -31,6 +31,6 @@ class Driver extends Model
     {
         return $query->where('name', 'ilike', "%{$value}%")
             ->orWhere('contact_number', 'ilike', "%{$value}%")
-            ->orWhere('email', 'ilike', "%  {$value}%");
+            ->orWhere('email', 'ilike', "%{$value}%");
     }
 }
