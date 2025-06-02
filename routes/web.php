@@ -43,6 +43,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', App\Livewire\Profile\Index::class)->name('profile.index');
 
     Route::get('/inspections', App\Livewire\Inspections\Index::class)->name('inspections.index');
+    Route::get('/inspections/schedule', [InspectionController::class, 'createSchedule'])->name('inspections.schedule');
 
     // --- Route Baru untuk Manajemen Akun Admin menggunakan Livewire ---
     Route::prefix('admin')
