@@ -20,7 +20,7 @@
      :style="sidebarOpenStatePage ? 'width: calc(100% - 16.666667%)' : 'width: 100%'">
 
     {{-- Bagian header halaman Anda (sesuaikan dengan <x-page-menu> jika ada) --}}
-    <div class="p-4 bg-gray-800 text-white rounded-t-md flex justify-between items-center">
+    <div class="p-4 bg-[var(--color-primary)] text-white rounded-t-md flex justify-between items-center">
         <h1 class="text-2xl font-semibold">Manajemen Akun Admin</h1>
         {{-- Tombol "Tambah Admin" bisa diletakkan di sini jika PBI-nya berkembang --}}
     </div>
