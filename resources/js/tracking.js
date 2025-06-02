@@ -191,7 +191,7 @@ async function finishTracking() {
 
 // Start fetching location when page loads
 document.addEventListener('DOMContentLoaded', async () => {
-    await getCurrentLocation();
+    // await getCurrentLocation();
     window.startTracking = startTracking;
     window.finishTracking = finishTracking;
     window.showLoading = showLoading;

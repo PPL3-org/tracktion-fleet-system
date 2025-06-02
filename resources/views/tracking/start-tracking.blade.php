@@ -86,6 +86,12 @@
                     class="w-full px-6 py-2 bg-[var(--color-primary)] hover:opacity-90 text-white text-sm font-medium rounded-full transition disabled:opacity-50 disabled:cursor-not-allowed">
                     Mulai
                 </button>
+                <button 
+                    type="button"
+                    onclick="window.location.href='{{ route('inspections.create', ['truck' => $truck->id]) }}'"
+                    class="w-full px-6 py-2 bg-[#FFB700] hover:opacity-90 text-white text-sm font-medium rounded-full transition disabled:opacity-50 disabled:cursor-not-allowed">
+                    Inspeksi Kendaraan
+                </button>
             </div>
         </form>
     </div>
