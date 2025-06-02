@@ -83,7 +83,7 @@
     </section>
 </div>
 
-<x-modal title="Buat Jadwal Pengiriman" name="create-inspection-schedule">
+<x-modal title="Buat Jadwal Inspeksi" name="create-inspection-schedule">
     <form wire:submit="save" class="space-y-4">
         <div>
             <label for="plate_number" class="block text-sm font-medium text-gray-700">Nomor Plat</label>

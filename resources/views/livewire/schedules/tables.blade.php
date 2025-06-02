@@ -36,22 +36,20 @@
                         <thead class="text-xs text-[#667085] font-medium bg-gray-100">
                             <tr class="text-center">
                                 <th scope="col" class="px-4 py-3">No</th>
-                                <th scope="col" class="px-4 py-3">Tanggal Keberangkatan</th>
-                                <th scope="col" class="px-4 py-3">Tanggal Selesai</th>
                                 <th scope="col" class="px-4 py-3">Klien</th>
                                 <th scope="col" class="px-4 py-3">Harga Pengiriman</th>
+                                <th scope="col" class="px-4 py-3">Tanggal Pengiriman</th>
                             </tr>
                         </thead>
                         <tbody class="divide-y divide-gray-200">
-                            {{-- @foreach () --}}
+                            @foreach ($schedules as $schedule)
                                 <tr class="hover:bg-gray-100 text-center text-xs text-black cursor-pointer">
-                                    <td class="px-4 py-3 font-medium text-gray-800"></td>
-                                    <td class="px-4 py-3"></td>
-                                    <td class="px-4 py-3"></td>
-                                    <td class="px-4 py-3"></td>
-                                    <td class="px-4 py-3"></td>
+                                    <td class="px-4 py-3 font-medium text-gray-800">{{ $loop->iteration }}</td>
+                                    <td class="px-4 py-3">{{ $schedule->client }}</td>
+                                    <td class="px-4 py-3">{{ $schedule->delivery_price }}</td>
+                                    <td class="px-4 py-3">{{ $schedule->departure_date }}</td>
                                 </tr    >                                
-                            {{-- @endforeach --}}
+                            @endforeach
                         </tbody>
                     </table>
                 </div>
@@ -68,6 +66,10 @@
                             <option value="100">100</option>
                         </select>
                     </div>
+                </div>
+
+                <div class="my-2 px-4">
+                    {{ $schedules->links(data: ['scrollTo' => false]) }}
                 </div>
 
                 <div class="my-2 px-4">

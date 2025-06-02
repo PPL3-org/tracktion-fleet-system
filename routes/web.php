@@ -38,7 +38,7 @@ Route::post('/inspection/{truck}', [InspectionController::class, 'store'])->name
 Route::middleware('auth')->group(function () {
     Route::get('/shipments', App\Livewire\Shipments\Index::class)->name('shipments.index');
 
-    Route::get('/schedules', App\Livewire\Schedules\Index::class)->name('schedules.index');
+    Route::get('/shipments/schedules', App\Livewire\Schedules\Index::class)->name('schedules.index');
 
     Route::get('/trucks', App\Livewire\Trucks\Index::class)->name('trucks.index');
     Route::get('/drivers', App\Livewire\Drivers\Index::class)->name('drivers.index');
