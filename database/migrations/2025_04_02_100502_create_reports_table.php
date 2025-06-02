@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('reports', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('user_id');
             $table->foreignId('shipment_id');
             $table->enum('problem_type', ['kemacetan', 'kecelakaan', 'masalah kendaraan', 'lainnya']);
             $table->text('problem_description')->nullable();

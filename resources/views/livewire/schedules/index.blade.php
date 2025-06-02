@@ -6,17 +6,17 @@
      
     <x-page-menu>
     <div>
-        <span class="text-2xl text-white font-sans font-semibold">Data Pengiriman</span>
+        <span class="text-2xl text-white font-sans font-semibold">Jadwal Pengiriman</span>
     </div>
 
     <div class="flex justify-around gap-3.5">
-        <x-button wire:click="scheduleShipment" style='white' >
-            Jadwal Pengiriman
+        <x-button style='white' >
+            Tambah Jadwal
         </x-button>
 
-        <x-button wire:click='exportExcel' style='green'>Cetak .xlsx</x-button>
+        <x-button style='green'>Cetak .xlsx</x-button>
     </div>
     </x-page-menu>
     
-    <livewire:shipments.table lazy />
+    <livewire:schedules.tables lazy />
  </div>

@@ -89,12 +89,6 @@
         </div>
     </section>
 
-    <x-modal title="Detail Truk" name="view-edit-truck">
-        @if ($selectedTruck)
-            Edit truck page here
-        @endif
-    </x-modal>
-
     <x-modal title="QR Code" :centerTitle="true" name="view-truck-qr-code">
         @if ($selectedTruck)
         <div class="flex flex-col items-center justify-center space-y-6">
@@ -126,6 +120,41 @@
         @endif
     </x-modal>
 
+    <x-modal title="Ubah data truk" name="view-edit-truck" focusable>
+        @if($selectedTruck)
+            <form wire:submit.prevent="updateTruck" class="p-6 space-y-4">
+                <!-- Form fields -->
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Nomor Plat</label>
+                    <input type="text" wire:model="plate_number" name="plate_number"
+                        class="w-full mt-1 p-2 border rounded">
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Model Truk</label>
+                    <input type="text" wire:model.defer="model" name="model"
+                        class="w-full mt-1 p-2 border rounded">
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Total Jarak Tempuh (Km)</label>
+                    <input type="number" wire:model.defer="total_distance"  name="total_distance"
+                        class="w-full mt-1 p-2 border rounded">
+                </div>
+
+                @if($errors->any())
+                <p class="text-xs text-center text-red-600 my-2 font-medium">{{ $errors->first() }}</p>
+                @endif
+
+                <div class="flex justify-end">
+                    <button type="submit" class="px-4 py-2 bg-[var(--color-primary)] text-white hover:opacity-80 rounded-lg cursor-pointer">
+                        Simpan
+                    </button>
+                </div>
+            </form>
+        @endif
+    </x-modal>
+
     <x-modal 
         title="Hapus Data Truk"
         name="view-delete-truck">
@@ -134,7 +163,23 @@
         </x-slot:icon>
 
         @if ($selectedTruck)
-            Delete truck here
+            <h2 class="font-semibold text-md">Apakah anda yakin ingin menghapus data truk ini?</h2>
+            <div class="flex flex-col text-gray-800 text-sm my-2 space-y-1">
+                <div class="flex">
+                    <span class="w-28">Plat Nomor</span>
+                    <span>: {{ $selectedTruck->plate_number }}</span>
+                </div>
+                <div class="flex">
+                    <span class="w-28">Model</span>
+                    <span>: {{ $selectedTruck->model }}</span>
+                </div>
+            </div>
+
+            <form wire:submit.prevent="deleteTruck" class="flex justify-end">
+                <button type="submit" class="text-white rounded-lg px-4 py-2 bg-red-600 cursor-pointer">
+                    Hapus 
+                </button>
+            </form>
         @endif
     </x-modal>
 </div>

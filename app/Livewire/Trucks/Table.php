@@ -18,6 +18,9 @@ class Table extends Component
     use WithPagination;
 
     public $selectedTruck;
+    public $plate_number, $model, $total_distance;
+
+    protected $listeners = ['truckUpdated' => '$refresh'];
 
     // Search filter
     #[Url(history:true)]
@@ -33,6 +36,9 @@ class Table extends Component
     {
         if(empty($this->selectedTruck)) {
             $this->selectedTruck = Truck::findOrFail($id);
+            $this->plate_number = $this->selectedTruck->plate_number;
+            $this->model = $this->selectedTruck->model;
+            $this->total_distance = $this->selectedTruck->total_distance;
         }
 
         $this->dispatch('open-modal', name: 'view-edit-truck');
@@ -84,6 +90,51 @@ class Table extends Component
     public function export()
     {
         return Excel::download(new TrucksExport($this->search), 'truk-' . now()->format('Y-m-d') . '.xlsx');
+    }
+
+    public function updateTruck()
+    {
+        $this->validate([
+            'plate_number' => 'required|string',
+            'model' => 'required|string',
+            'total_distance' => 'required'
+        ], [
+            'plate_number.required' => 'Plat nomor tidak boleh kosong',
+            'model.required' => 'Model kendaraan tidak boleh kosong.'
+        ]);
+
+        $truck = Truck::findOrFail($this->selectedTruck->id);
+
+        $truck->update([
+            'plate_number' => $this->plate_number,
+            'model' => $this->model,
+            'total_distance' => $this->total_distance,
+        ]);
+
+        $this->dispatch('close-modal', name: 'edit-truck-view');
+        $this->dispatch('truckUpdated');
+        $this->dispatch('show-toast', 
+            type: 'success',
+            message: 'Data truk berhasil diperbarui'
+        );
+        
+        $this->reset('selectedTruck');
+    }
+
+    public function deleteTruck()
+    {
+        $truck = Truck::findOrFail($this->selectedTruck->id);
+
+        $truck->delete();
+
+        $this->dispatch('close-modal');
+        $this->dispatch('truckUpdated');
+        $this->dispatch('show-toast', 
+            type: 'success',
+            message: 'Data truk berhasil dihapus'
+        );
+
+        $this->reset('selectedTruck');
     }
 
     public function render()
