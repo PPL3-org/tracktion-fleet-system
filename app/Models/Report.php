@@ -39,4 +39,5 @@ class Report extends Model
         Carbon::setLocale('id');
         return Carbon::parse($this->created_at)->translatedFormat('d F Y, H.i');
     }
+    // komang
 }

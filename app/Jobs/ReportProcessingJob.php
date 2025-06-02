@@ -9,7 +9,6 @@ use Illuminate\Foundation\Queue\Queueable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Facades\Log;
 
 class ReportProcessingJob implements ShouldQueue
 {
@@ -32,11 +31,6 @@ class ReportProcessingJob implements ShouldQueue
      */
     public function handle(): void
     {
-        // Log the truck instance
-        Log::info('ReportProcessingJob truck', [
-            'truck' => $this->truck
-        ]);
-
         // Find location
         $googleApiKey = config('services.google_maps.key');
 

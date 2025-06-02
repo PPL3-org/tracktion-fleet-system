@@ -50,7 +50,7 @@
                 Laporan
             </x-nav-link>
             
-            <x-nav-link href="{{ route('inspections.index') }}" :active="request()->is('reports')">
+            <x-nav-link href="{{ route('inspections.index') }}" :active="request()->is('inspections')">
                 <svg class="w-6 h-6 text-current group-hover:text-white" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                     <path fill="currentColor" d="m20 8l-6-6H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8zM9 19H7v-9h2v9zm4 0h-2v-6h2v6zm4 0h-2v-3h2v3zM14 9h-1V4l5 5h-4z"/>
                 </svg>
