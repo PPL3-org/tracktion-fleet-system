@@ -47,6 +47,7 @@ class Table extends Component
         $this->dispatch('open-modal', name: 'view-edit-report');
     }
 
+    // function to update the report
     public function updateReport()
     {
         $this->validate([
