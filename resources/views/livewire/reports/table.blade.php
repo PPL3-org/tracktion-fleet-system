@@ -44,6 +44,7 @@
                                 <th scope="col" class="px-4 py-3">Tipe Kendala</th>
                                 <th scope="col" class="px-4 py-3">Deskripsi Laporan</th>
                                 <th scope="col" class="px-4 py-3">Tanggal Laporan</th>
+                                <th scope="col" class="px-4 py-3">Aksi</th>
                             </tr>
                         </thead>
                         <tbody class="divide-y divide-gray-200">
@@ -52,11 +53,22 @@
                                 class="hover:bg-gray-50 text-center text-xs text-black cursor-pointer">
                                 <td class="px-4 py-3 font-medium text-gray-800">{{ $loop->iteration }}</td>
                                 <td class="px-4 py-3">{{ $report->plate_number }}</td>
-                                <td class="px-4 py-3 text-left whitespace-normal break-words">{{ $report->report_location }}</td>
+                                <td class="px-4 py-3 text-left whitespace-normal break-words">{{
+                                    $report->report_location }}</td>
                                 <td class="px-4 py-3">{{ ucwords($report->problem_type) }}</td>
                                 <td class="px-4 py-3 text-left whitespace-normal break-words">{{
                                     ucfirst($report->problem_description) }}</td>
                                 <td class="px-4 py-3">{{ $report->formatted_date }}</td>
+                                <td class="flex justify-around">
+                                    <button wire:click.stop="viewEditReport('{{ $report->id }}')"
+                                        class="text-white bg-[#FFB700] rounded-lg p-2 my-2 cursor-pointer hover:opacity-90">
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                            stroke-width="2" stroke="currentColor" class="size-4">
+                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
+                                        </svg>
+                                    </button>
+                                </td>
                             </tr>
                             @endforeach
                         </tbody>
@@ -66,7 +78,7 @@
                 <!-- Mobile Card View -->
                 <div class="md:hidden">
                     @foreach ($reports as $report)
-                    <div wire:click="viewReport({{ $report->id }})" wire:key="{{ $report->id }}" 
+                    <div wire:click="viewReport({{ $report->id }})" wire:key="{{ $report->id }}"
                         class="p-4 border-b border-gray-200 hover:bg-gray-50">
                         <div class="flex justify-between items-start mb-2">
                             <div class="text-sm font-medium text-gray-900">{{ $report->plate_number }}
@@ -120,7 +132,52 @@
 
     <x-modal title="Detail Laporan Kendala" name="detail-view-report">
         @if ($selectedReport)
-            <livewire:reports.view :report="$selectedReport" :key="$selectedReport->id">
+        <livewire:reports.view :report="$selectedReport" :key="$selectedReport->id">
+            @endif
+    </x-modal>
+
+    <x-modal title="Ubah data laporan" name="view-edit-report" focusable>
+        @if($selectedReport)
+        <form wire:submit.prevent="updateReport" class="p-6 space-y-4">
+            <!-- Plate Number (disabled) -->
+            <div>
+                <label class="block text-sm font-medium text-gray-700">Nomor Plat</label>
+                <input type="text" class="w-full mt-1 p-2 border rounded bg-gray-100"
+                    value="{{ $selectedReport->plate_number }}" disabled>
+            </div>
+            <!-- Location (disabled) -->
+            <div>
+                <label class="block text-sm font-medium text-gray-700">Lokasi</label>
+                <input type="text" class="w-full mt-1 p-2 border rounded bg-gray-100"
+                    value="{{ $selectedReport->report_location }}" disabled>
+            </div>
+            <!-- Problem Type (editable) -->
+            <div>
+                <label class="block text-sm font-medium text-gray-700">Tipe Kendala</label>
+                <select wire:model.defer="problem_type" name="problem_type" class="w-full mt-1 p-2 border rounded">
+                    <option value="">Pilih Tipe Kendala</option>
+                    <option value="kemacetan">Kemacetan</option>
+                    <option value="kecelakaan">Kecelakaan</option>
+                    <option value="masalah kendaraan">Masalah Kendaraan</option>
+                    <option value="lainnya">Lainnya</option>
+                </select>
+            </div>
+            <!-- Problem Description (editable) -->
+            <div>
+                <label class="block text-sm font-medium text-gray-700">Deskripsi Laporan</label>
+                <textarea wire:model.defer="problem_description" name="problem_description"
+                    class="w-full mt-1 p-2 border rounded" rows="3"></textarea>
+            </div>
+            @if($errors->any())
+            <p class="text-xs text-center text-red-600 my-2 font-medium">{{ $errors->first() }}</p>
+            @endif
+            <div class="flex justify-end">
+                <button type="submit"
+                    class="px-4 py-2 bg-[var(--color-primary)] text-white hover:opacity-80 rounded-lg cursor-pointer">
+                    Simpan
+                </button>
+            </div>
+        </form>
         @endif
     </x-modal>
 </div>

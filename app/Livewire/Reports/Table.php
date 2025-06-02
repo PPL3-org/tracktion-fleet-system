@@ -17,6 +17,8 @@ class Table extends Component
     use WithPagination;
 
     public $selectedReport;
+    public $problem_type;
+    public $problem_description;
 
     // Search filter
     #[Url(history:true)]
@@ -33,6 +35,35 @@ class Table extends Component
 
     // number of items per page
     public int $itemsPerPage=10;
+
+    public function viewEditReport($id)
+    {
+        if(empty($this->selectedReport)) {
+            $this->selectedReport = Report::findOrFail($id);
+            $this->problem_type = $this->selectedReport->problem_type;
+            $this->problem_description = $this->selectedReport->problem_description;
+        }
+
+        $this->dispatch('open-modal', name: 'view-edit-report');
+    }
+
+    public function updateReport()
+    {
+        $this->validate([
+            'problem_type' => 'required|string',
+            'problem_description' => 'required|string',
+        ]);
+
+        $report = Report::findOrFail($this->selectedReport->id);
+
+        $report->update([
+            'problem_type' => $this->problem_type,
+            'problem_description' => $this->problem_description,
+        ]);
+
+        $this->dispatch('reportUpdated')->to(Table::class);
+        $this->dispatch('close-modal');
+    }
 
     public function viewReport($id)
     {
