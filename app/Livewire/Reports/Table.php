@@ -10,9 +10,13 @@ use Livewire\Attributes\Url;
 use Livewire\Attributes\On;
 use Maatwebsite\Excel\Facades\Excel;
 
+use Illuminate\Support\Facades\Auth;
+
 class Table extends Component
 {
     use WithPagination;
+
+    public $selectedReport;
 
     // Search filter
     #[Url(history:true)]
@@ -30,6 +34,13 @@ class Table extends Component
     // number of items per page
     public int $itemsPerPage=10;
 
+    public function viewReport($id)
+    {
+        $this->selectedReport = Report::findOrFail($id);
+
+        $this->dispatch('open-modal', name: 'detail-view-report');
+    }
+
     public function updatedSearch()
     {
         $this->resetPage();
@@ -43,7 +54,7 @@ class Table extends Component
 
     public function render()
     {
-        $query = Report::with('shipment.truck')
+        $query = Report::where('user_id', Auth::user()->id)
             ->search($this->search)
             ->orderBy($this->sortBy, $this->sortDir);
 

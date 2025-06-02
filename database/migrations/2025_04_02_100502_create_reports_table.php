@@ -14,7 +14,9 @@ return new class extends Migration
         Schema::create('reports', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id');
-            $table->foreignId('shipment_id');
+            $table->foreignUuid('truck_id');
+            $table->string('plate_number');
+            $table->string('report_location');
             $table->enum('problem_type', ['kemacetan', 'kecelakaan', 'masalah kendaraan', 'lainnya']);
             $table->text('problem_description')->nullable();
             $table->timestamps();
