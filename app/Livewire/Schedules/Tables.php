@@ -23,6 +23,31 @@ class Tables extends Component
         $this->dispatch('open-modal', name: 'view-edit-shipment-schedule');
     }
 
+    public function viewDeleteShipmentSchedule($id)
+    {
+        if(empty($this->selectedShedule)) {
+            $this->selectedSchedule = ShipmentSchedule::findOrFail($id);
+            $this->client = $this->selectedSchedule->client;
+            $this->delivery_price = $this->selectedSchedule->delivery_price;
+            $this->departure_date = $this->selectedSchedule->departure_date;
+
+        }
+
+        $this->dispatch('open-modal', name: 'view-delete-shipment-schedule');
+    }
+
+    public function deleteSchedule()
+    {
+        $schedule = ShipmentSchedule::find($this->selectedSchedule->id);
+
+        $schedule->delete();
+
+        $this->reset(['selectedSchedule', 'delivery_price', 'client', 'departure_date']);
+
+        $this->dispatch('shipmentScheduleUpdated');
+        $this->dispatch('close-modal');
+    }
+
     public function render()
     {
         $query = ShipmentSchedule::orderBy('departure_date', 'DESC');
@@ -50,5 +75,6 @@ class Tables extends Component
 
         $this->dispatch('shipmentScheduleUpdated');
         $this->dispatch('close-modal');
+        $this->reset(['selectedSchedule', 'delivery_price', 'client', 'departure_date']);
     }
 }
