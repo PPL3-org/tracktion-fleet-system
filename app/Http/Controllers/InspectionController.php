@@ -13,11 +13,6 @@ class InspectionController extends Controller
         return view('inspection.create', compact('truck'));
     }
 
-    public function createSchedule()
-    {
-        return view('inspection.create-schedule');
-    }
-
     public function store(Truck $truck)
     {
         $validated = request()->validate([
