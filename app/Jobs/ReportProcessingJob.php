@@ -9,18 +9,19 @@ use Illuminate\Foundation\Queue\Queueable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 
 class ReportProcessingJob implements ShouldQueue
 {
     use InteractsWithQueue, Queueable, SerializesModels;
 
-    protected Truck $truck;
+    protected $truck;
     protected $validatedRequest;
 
     /**
      * Create a new job instance.
      */
-    public function __construct(Truck $truck, array $validatedRequest)
+    public function __construct($truck, array $validatedRequest)
     {
         $this->truck = $truck;
         $this->validatedRequest = $validatedRequest;
@@ -31,6 +32,11 @@ class ReportProcessingJob implements ShouldQueue
      */
     public function handle(): void
     {
+        // Log the truck instance
+        Log::info('ReportProcessingJob truck', [
+            'truck' => $this->truck
+        ]);
+
         // Find location
         $googleApiKey = config('services.google_maps.key');
 

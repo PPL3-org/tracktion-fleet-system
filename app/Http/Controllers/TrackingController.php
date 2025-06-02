@@ -58,7 +58,7 @@ class TrackingController extends Controller
             'problem_type.required' => 'Mohon pilih tipe kendala.'
         ]);
 
-        // ReportProcessingJob::dispatch($truck, $validated);
+        ReportProcessingJob::dispatch($truck, $validated);
 
         return redirect()->route('tracking.report-success', ['truck' => $truck->id]);
     }
