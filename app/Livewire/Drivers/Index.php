@@ -5,6 +5,7 @@ namespace App\Livewire\Drivers;
 use App\Models\Driver;
 use Livewire\Component;
 use App\Livewire\Drivers\Table;
+use Illuminate\Support\Facades\Auth; 
 
 #[\Livewire\Attributes\Title('Driver')]
 class Index extends Component
@@ -36,6 +37,7 @@ class Index extends Component
         $this->validate();
 
         Driver::create([
+            'user_id' => Auth::id(),
             'name' => $this->name,
             'contact_number' => $this->contact_number,
             'email' => $this->email,

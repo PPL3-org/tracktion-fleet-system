@@ -52,7 +52,9 @@ class Shipment extends Model
             ->orWhere('return_waybill_number', 'ilike', "%{$value}%")
             ->orWhere('client', 'ilike', "%{$value}%")
             ->orWhere('status', 'ilike', "%{$value}%")
-            ->orWhere('plate_number', 'ilike', "%{$value}%");
+            ->orWhereHas('truck', function ($query) use ($value) {
+                $query->where('plate_number', 'ilike', "%{$value}%");
+            });
     }
 
 
